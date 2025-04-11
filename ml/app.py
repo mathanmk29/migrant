@@ -5,6 +5,7 @@ import pytesseract
 import numpy as np
 import re
 import pandas as pd
+import uvicorn
 
 pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 
@@ -48,3 +49,7 @@ async def extract_aadhaar(file: UploadFile = File(...)):
         print(state)
         return {"State": state, "Pincode": pincode}
     return {"Error": "No pattern found"}
+
+
+if __name__ == "__main__":
+    uvicorn.run("app:app", host="0.0.0.0", port=8001, reload=True)
