@@ -99,7 +99,7 @@ const Home = () => {
                 <span>Home</span>
               </button>
 
-              {user?.agencyVerified ? (
+              {user?.agencyVerified && user?.isMigrant ? (
                 <>
                   <button
                     onClick={() => navigate("/submit-complaint")}
@@ -169,7 +169,7 @@ const Home = () => {
                     <span>Home</span>
                   </button>
 
-                  {user?.agencyVerified ? (
+                  {user?.agencyVerified && user?.isMigrant ? (
                     <>
                       <button
                         onClick={() => {
