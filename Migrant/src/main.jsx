@@ -19,7 +19,6 @@ import GovLogin from "./pages/GovLogin";
 import GovDashboard from "./pages/GovDashboard";
 import AgencyDetails from "./pages/AgencyDetails";
 import NotFound from "./pages/NotFound";
-import ProtectedRoute from "./components/ProtectedRoute";
 
 import "./index.css";
 
@@ -39,56 +38,18 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Route path="/signup/agency" element={<AgencySignup />} />
       <Route path="/signup/department" element={<DepartmentSignup />} />
       
-      {/* Dashboard Routes - Each protected for specific user type */}
-      <Route path="/home" element={
-        <ProtectedRoute userType="migrant">
-          <Home />
-        </ProtectedRoute>
-      } />
-      <Route path="/agency-dashboard" element={
-        <ProtectedRoute userType="agency">
-          <AgencyDashboard />
-        </ProtectedRoute>
-      } />
-      <Route path="/department-dashboard" element={
-        <ProtectedRoute userType="department">
-          <DepartmentDashboard />
-        </ProtectedRoute>
-      } />
-      <Route path="/government-dashboard" element={
-        <ProtectedRoute userType="government">
-          <GovDashboard />
-        </ProtectedRoute>
-      } />
+      {/* Dashboard Routes */}
+      <Route path="/home" element={<Home />} />
+      <Route path="/agency-dashboard" element={<AgencyDashboard />} />
+      <Route path="/department-dashboard" element={<DepartmentDashboard />} />
+      <Route path="/government-dashboard" element={<GovDashboard />} />
       
-      {/* Complaint Routes - Protected for verified migrants only */}
-      <Route path="/submit-complaint" element={
-        <ProtectedRoute userType="migrant" requireAgencyVerification={true}>
-          <SubmitComplaint />
-        </ProtectedRoute>
-      } />
-      <Route path="/user-complaints" element={
-        <ProtectedRoute userType="migrant" requireAgencyVerification={true}>
-          <UserComplaints />
-        </ProtectedRoute>
-      } />
-      
-      {/* Agency Selection and Verification - Only for migrants */}
-      <Route path="/verify" element={
-        <ProtectedRoute userType="migrant">
-          <Verification />
-        </ProtectedRoute>
-      } />
-      <Route path="/select-agency" element={
-        <ProtectedRoute userType="migrant">
-          <SelectAgency />
-        </ProtectedRoute>
-      } />
-      <Route path="/agency/:id" element={
-        <ProtectedRoute userType="migrant">
-          <AgencyDetails />
-        </ProtectedRoute>
-      } />
+      {/* Other Routes */}
+      <Route path="/submit-complaint" element={<SubmitComplaint />} />
+      <Route path="/user-complaints" element={<UserComplaints />} />
+      <Route path="/verify" element={<Verification />} />
+      <Route path="/select-agency" element={<SelectAgency />} />
+      <Route path="/agency/:id" element={<AgencyDetails />} />
 
       {/* Catch-all route for undefined URLs */}
       <Route path="*" element={<NotFound />} />

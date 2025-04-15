@@ -19,6 +19,7 @@ const ProtectedRoute = ({
   const [loading, setLoading] = useState(true);
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [redirectPath, setRedirectPath] = useState("/");
+  const [user, setUser] = useState(null);
   
   useEffect(() => {
     const validateAccess = async () => {
@@ -64,11 +65,28 @@ const ProtectedRoute = ({
           headers: { Authorization: `Bearer ${token}` },
         });
         
+        // Store user data for reference
+        setUser(res.data);
+        
         // Check specific conditions based on user type
         if (userType === "migrant" && requireAgencyVerification) {
-          setIsAuthorized(res.data && res.data.agencyVerified);
+          // Explicitly handle verification status regardless of its type (boolean, string, etc.)
+          let isVerified = false;
+          
+          // First check if we have data
+          if (res.data) {
+            // Check for agencyVerified property (could be boolean or string)
+            if (typeof res.data.agencyVerified === 'boolean') {
+              isVerified = res.data.agencyVerified;
+            } else if (res.data.agencyVerified === 'true' || res.data.agencyVerified === '1') {
+              isVerified = true;
+            }
+          }
+          
+          setIsAuthorized(isVerified);
         } else {
-          // For other user types, just check if user data exists
+          // For other user types or migrant without verification requirement, 
+          // just check if user data exists
           setIsAuthorized(!!res.data);
         }
       } catch (error) {
@@ -92,7 +110,14 @@ const ProtectedRoute = ({
   }
   
   if (!isAuthorized) {
-    // Redirect to appropriate sign-in page if not authorized
+    // If the user is logged in as a migrant but is not verified, 
+    // and is trying to access a verification-required page,
+    // redirect to home page instead of login
+    if (userType === "migrant" && requireAgencyVerification && user) {
+      return <Navigate to="/home" replace />;
+    }
+    
+    // For other unauthorized cases, redirect to appropriate sign-in page
     return <Navigate to={redirectPath} replace />;
   }
   

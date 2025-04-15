@@ -26,7 +26,7 @@ const UserComplaints = () => {
     const fetchUser = async () => {
       try {
         const token = localStorage.getItem("token");
-        if (!token) return navigate("/login");
+        if (!token) return navigate("/signin/migrant");
 
         const res = await axios.get("http://localhost:5000/api/auth/user", {
           headers: { Authorization: `Bearer ${token}` },
@@ -35,7 +35,7 @@ const UserComplaints = () => {
         setUser(res.data);
       } catch (error) {
         console.error("Error fetching user:", error);
-        navigate("/login");
+        navigate("/signin/migrant");
       }
     };
 
@@ -65,7 +65,7 @@ const UserComplaints = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    navigate("/login");
+    navigate("/signin/migrant");
   };
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);

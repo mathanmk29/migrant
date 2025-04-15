@@ -54,7 +54,7 @@ const Verification = () => {
     formData.append("file", aadharBack);
 
     try {
-      const mlRes = await axios.post("http://127.0.0.1:8000/extract_aadhaar", formData, {
+      const mlRes = await axios.post("http://127.0.0.1:8001/extract_aadhaar", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
