@@ -14,7 +14,7 @@ const AgencyDetails = () => {
   useEffect(() => {
     const fetchAgency = async () => {
       try {
-        const token = localStorage.getItem('governmentToken');
+        const token = localStorage.getItem('govToken');
         const res = await axios.get(`http://localhost:5000/api/government/agencies/${id}`, {
           headers: { 'x-auth-token': token },
         });

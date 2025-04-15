@@ -64,7 +64,7 @@ const DepartmentDashboard = () => {
     }
   };
   const handleLogout = async () => {
-    localStorage.clear("deptToken")
+    localStorage.removeItem("deptToken")
     navigate("/signin/department")
   };
 

@@ -92,6 +92,44 @@ router.get("/agencies/:id", async (req, res) => {
   }
 });
 
+// Get government department profile
+router.get("/profile", async (req, res) => {
+  try {
+    // Extract and verify token
+    const token = req.header("x-auth-token");
+    
+    if (!token) {
+      return res.status(401).json({ error: "No authentication token, access denied" });
+    }
+    
+    // Verify the token
+    const verified = jwt.verify(token, process.env.JWT_SECRET);
+    
+    if (!verified) {
+      return res.status(401).json({ error: "Token verification failed, access denied" });
+    }
+    
+    // Get department data
+    const department = await Government.findById(verified.departmentId).select("-password");
+    
+    if (!department) {
+      return res.status(404).json({ error: "Department not found" });
+    }
+    
+    // Add additional fields to match the UI requirements
+    const departmentData = {
+      ...department.toObject(),
+      division: "Government Affairs",  // Add any default fields needed for the UI
+      location: "Central Government Office"
+    };
+    
+    res.json(departmentData);
+  } catch (err) {
+    console.error("Profile fetch error:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 
 // Verify/reject agency
 router.put("/agencies/:id", async (req, res) => {
