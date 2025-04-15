@@ -8,11 +8,13 @@ import Header from "../components/Header";
 
 const GovLogin = () => {
   const [department, setDepartment] = useState({ email: "", password: "" });
+  const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setErrorMessage("");
     setIsLoading(true);
     try {
       const res = await axios.post("http://localhost:5000/api/government/login", department);
@@ -21,7 +23,8 @@ const GovLogin = () => {
       toast.success("Login successful!");
       navigate("/government-dashboard");
     } catch (error) {
-      toast.error(error.response?.data?.error || "Login failed");
+      console.error("Login Error:", error.response?.data);
+      setErrorMessage("Login failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -44,6 +47,11 @@ const GovLogin = () => {
         </div>
         
         <form onSubmit={handleLogin} className="p-8 space-y-6">
+          {errorMessage && (
+            <div className="mb-4 p-3 bg-red-100 border border-red-300 text-red-700 rounded-lg">
+              {errorMessage}
+            </div>
+          )}
           <div>
             <label className="block text-gray-700 mb-2">Email</label>
             <div className="relative">
@@ -54,7 +62,10 @@ const GovLogin = () => {
                 type="email"
                 placeholder="gov@example.com"
                 value={department.email}
-                onChange={(e) => setDepartment({ ...department, email: e.target.value })}
+                onChange={(e) => {
+                  setDepartment({ ...department, email: e.target.value });
+                  if (errorMessage) setErrorMessage("");
+                }}
                 className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition duration-200"
                 required
               />
@@ -71,7 +82,10 @@ const GovLogin = () => {
                 type="password"
                 placeholder="••••••••"
                 value={department.password}
-                onChange={(e) => setDepartment({ ...department, password: e.target.value })}
+                onChange={(e) => {
+                  setDepartment({ ...department, password: e.target.value });
+                  if (errorMessage) setErrorMessage("");
+                }}
                 className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition duration-200"
                 required
               />

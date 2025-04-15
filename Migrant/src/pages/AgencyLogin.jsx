@@ -9,11 +9,13 @@ import Header from "../components/Header";
 
 const AgencyLogin = () => {
   const [agency, setAgency] = useState({ email: "", password: "" });
+  const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setErrorMessage("");
     setIsLoading(true);
 
     try {
@@ -27,10 +29,11 @@ const AgencyLogin = () => {
         toast.success("Login successful!");
         navigate("/agency-dashboard");
       } else {
-        toast.error("Wait For Approval By Government!");
+        setErrorMessage("Wait For Approval By Government!");
       }
     } catch (error) {
-      toast.error(error.response?.data?.error || "Login failed");
+      console.error("Login Error:", error.response?.data);
+      setErrorMessage("Login failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -51,6 +54,11 @@ const AgencyLogin = () => {
           </div>
 
           <form onSubmit={handleLogin} className="p-8 space-y-6">
+            {errorMessage && (
+              <div className="mb-4 p-3 bg-red-100 border border-red-300 text-red-700 rounded-lg">
+                {errorMessage}
+              </div>
+            )}
             <div>
               <label className="block text-gray-700 mb-2 text-md">Email</label>
               <div className="relative">
@@ -61,7 +69,10 @@ const AgencyLogin = () => {
                   type="email"
                   placeholder="agency@example.com"
                   value={agency.email}
-                  onChange={(e) => setAgency({ ...agency, email: e.target.value })}
+                  onChange={(e) => {
+                    setAgency({ ...agency, email: e.target.value });
+                    if (errorMessage) setErrorMessage("");
+                  }}
                   className="w-full pl-10 pr-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition duration-200"
                   required
                 />
@@ -78,7 +89,10 @@ const AgencyLogin = () => {
                   type="password"
                   placeholder="••••••••"
                   value={agency.password}
-                  onChange={(e) => setAgency({ ...agency, password: e.target.value })}
+                  onChange={(e) => {
+                    setAgency({ ...agency, password: e.target.value });
+                    if (errorMessage) setErrorMessage("");
+                  }}
                   className="w-full pl-10 pr-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition duration-200"
                   required
                 />
