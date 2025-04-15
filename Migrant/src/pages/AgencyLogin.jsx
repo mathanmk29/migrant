@@ -19,6 +19,9 @@ const AgencyLogin = () => {
     try {
       const res = await axios.post("http://localhost:5000/api/agency/login", agency);
       localStorage.setItem("agencyToken", res.data.token);
+      
+      // Store agency data in localStorage for profile display
+      localStorage.setItem("agencyData", JSON.stringify(res.data.agency));
 
       if (res.data.agency.isVerified) {
         toast.success("Login successful!");

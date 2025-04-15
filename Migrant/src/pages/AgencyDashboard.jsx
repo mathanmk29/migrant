@@ -21,11 +21,13 @@ const AgencyDashboard = () => {
   const [activeTab, setActiveTab] = useState("pending");
   const [searchTerm, setSearchTerm] = useState("");
   const [stats, setStats] = useState({ pending: 0, approved: 0, rejected: 0 });
+  const [agencyData, setAgencyData] = useState(null);
   const navigate = useNavigate();
   
   // Fetch data on component mount
   useEffect(() => {
     fetchData();
+    fetchAgencyData();
   }, []);
 
   const fetchData = async () => {
@@ -63,6 +65,56 @@ const AgencyDashboard = () => {
   const handleLogout = () => {
     localStorage.removeItem("agencyToken");
     navigate("/");
+  };
+
+  // Fetch agency profile data
+  const fetchAgencyData = async () => {
+    try {
+      const token = localStorage.getItem("agencyToken");
+      if (!token) {
+        navigate("/");
+        return;
+      }
+      
+      // Decode JWT token to get agency ID
+      try {
+        const tokenData = JSON.parse(atob(token.split(".")[1]));
+        if (!tokenData || !tokenData.agencyId) {
+          toast.error("Invalid authentication data");
+          navigate("/");
+          return;
+        }
+        
+        // For now, we'll get the agency data from local storage
+        // In a real application, you'd make an API call to get the latest data
+        // Example: const response = await axios.get(`http://localhost:5000/api/agency/profile`, { headers: { Authorization: `Bearer ${token}` } });
+        
+        // Check if we have agency data in localStorage from login
+        const storedAgencyData = localStorage.getItem("agencyData");
+        if (storedAgencyData) {
+          setAgencyData(JSON.parse(storedAgencyData));
+        } else {
+          // Fallback if no data in localStorage - in a real app, you'd make an API call here
+          setAgencyData({
+            _id: tokenData.agencyId,
+            name: "Your Agency",
+            email: "agency@example.com",
+            department: "Verification Department",
+            location: "Your Location",
+            licenseNumber: "ABC123",
+            isVerified: true
+          });
+        }
+      } catch (decodeError) {
+        console.error("Error decoding token:", decodeError);
+        toast.error("Invalid authentication token");
+        navigate("/");
+        return;
+      }
+    } catch (error) {
+      console.error("Error fetching agency data:", error);
+      toast.error("Failed to load profile data");
+    }
   };
 
   const handleUpdate = async (userId, status) => {
@@ -116,9 +168,9 @@ const AgencyDashboard = () => {
       {/* Background Animation */}
       <BackgroundAnimation />
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-[95%] mx-auto relative z-10">
         {/* Header */}
-        <Header handleLogout={handleLogout} />
+        <Header handleLogout={handleLogout} agencyData={agencyData} />
 
         {/* Statistics Cards */}
         <StatCards stats={stats} />
