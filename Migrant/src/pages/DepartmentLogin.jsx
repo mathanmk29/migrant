@@ -25,8 +25,9 @@ const DepartmentLogin = () => {
     } catch (error) {
       console.error("Login Error:", error.response?.data);
       
-      // Set a general error message instead of field-specific errors
-      setErrorMessage("Login failed. Please try again.");
+      // Display the specific error message from the server
+      const errorMsg = error.response?.data?.error || "Login failed. Please try again.";
+      setErrorMessage(errorMsg);
     } finally {
       setIsLoading(false);
     }
