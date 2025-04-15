@@ -358,11 +358,26 @@ const AgencyDashboard = () => {
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
               >
-                <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-6 text-white">
-                  <h2 className="text-2xl font-bold">
-                    {selectedRequest.firstName} {selectedRequest.lastName}
-                  </h2>
-                  <p className="text-blue-100">
+                <div className="p-6 bg-gradient-to-r from-indigo-600 to-blue-500 text-white">
+                  <div className="flex justify-between items-start">
+                    <div className="flex items-center">
+                      <div className="bg-white/20 rounded-full p-3">
+                        <FiUser className="h-6 w-6" />
+                      </div>
+                      <h2 className="ml-3 text-xl font-bold">
+                        {selectedRequest.firstName} {selectedRequest.lastName}
+                      </h2>
+                    </div>
+                    <button 
+                      onClick={() => setSelectedRequest(null)}
+                      className="text-white/80 hover:text-white transition-colors duration-200"
+                    >
+                      <svg className="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                  <p className="mt-2 text-indigo-100">
                     {activeTab === "pending" ? "Verification Request" : 
                      selectedRequest.agencyVerified ? "Approved Migrant" : "Rejected Application"}
                   </p>
