@@ -19,7 +19,6 @@ import GovLogin from "./pages/GovLogin";
 import GovDashboard from "./pages/GovDashboard";
 import AgencyDetails from "./pages/AgencyDetails";
 import NotFound from "./pages/NotFound";
-import ProtectedRoute from "./ProtectedRoute";
 
 import "./index.css";
 
@@ -40,23 +39,18 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Route path="/signin/agency" element={<AgencyLogin />} />
       <Route path="/signin/department" element={<DepartmentLogin />} />
       <Route path="/signin/government" element={<GovLogin />} />
-
+      
       {/* Sign Up Routes */}
       <Route path="/signup/migrant" element={<Signup />} />
       <Route path="/signup/agency" element={<AgencySignup />} />
       <Route path="/signup/department" element={<DepartmentSignup />} />
-
+      
       {/* Dashboard Routes */}
       <Route path="/agency-dashboard" element={<AgencyDashboard />} />
       <Route path="/department-dashboard" element={<DepartmentDashboard />} />
       <Route path="/government-dashboard" element={<GovDashboard />} />
-
-
-      <Route path="/submit-complaint" element={ <ProtectedRoute> <SubmitComplaint /> </ProtectedRoute>} />
-      <Route path="/user-complaints" element={ <ProtectedRoute> <UserComplaints /> </ProtectedRoute>} />
-      <Route path="/verify" element={<Verification />} />
-      <Route path="/select-agency" element={<SelectAgency />} />
-
+      
+      {/* Other Routes */}
       <Route path="/agency/:id" element={<AgencyDetails />} />
 
       {/* Catch-all route for undefined URLs */}
