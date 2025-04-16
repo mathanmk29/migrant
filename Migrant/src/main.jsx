@@ -19,6 +19,7 @@ import GovLogin from "./pages/GovLogin";
 import GovDashboard from "./pages/GovDashboard";
 import AgencyDetails from "./pages/AgencyDetails";
 import NotFound from "./pages/NotFound";
+import ProtectedRoute from "./ProtectedRoute";
 
 import "./index.css";
 
@@ -26,27 +27,27 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <Router>
     <Routes>
       <Route path="/" element={<LandingPage />} />
-      
+
       {/* Sign In Routes */}
       <Route path="/signin/migrant" element={<Login />} />
       <Route path="/signin/agency" element={<AgencyLogin />} />
       <Route path="/signin/department" element={<DepartmentLogin />} />
       <Route path="/signin/government" element={<GovLogin />} />
-      
+
       {/* Sign Up Routes */}
       <Route path="/signup/migrant" element={<Signup />} />
       <Route path="/signup/agency" element={<AgencySignup />} />
       <Route path="/signup/department" element={<DepartmentSignup />} />
-      
+
       {/* Dashboard Routes */}
       <Route path="/home" element={<Home />} />
       <Route path="/agency-dashboard" element={<AgencyDashboard />} />
       <Route path="/department-dashboard" element={<DepartmentDashboard />} />
       <Route path="/government-dashboard" element={<GovDashboard />} />
-      
+
       {/* Other Routes */}
-      <Route path="/submit-complaint" element={<SubmitComplaint />} />
-      <Route path="/user-complaints" element={<UserComplaints />} />
+      <Route path="/submit-complaint" element={ <ProtectedRoute> <SubmitComplaint /> </ProtectedRoute>} />
+      <Route path="/user-complaints" element={ <ProtectedRoute> <UserComplaints /> </ProtectedRoute>} />
       <Route path="/verify" element={<Verification />} />
       <Route path="/select-agency" element={<SelectAgency />} />
       <Route path="/agency/:id" element={<AgencyDetails />} />
