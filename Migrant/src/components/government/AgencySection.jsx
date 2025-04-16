@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiSearch, FiFilter, FiCheck, FiX, FiUser, FiMail, FiMapPin, FiPhone, FiCalendar, FiRefreshCw } from "react-icons/fi";
+import { FiSearch, FiFilter, FiCheck, FiX, FiUser, FiMail, FiMapPin, FiPhone, FiClock, FiCalendar, FiRefreshCw } from "react-icons/fi";
 
 const AgencySection = ({
   searchTerm,
@@ -174,7 +174,7 @@ const AgencySection = ({
                               </div>
                               <div className="flex items-center">
                                 <FiPhone className="mr-2 flex-shrink-0 text-gray-400" />
-                                <span>{agency.phone || '+1 234 567 8900'}</span>
+                                <span>{agency.phoneNumber || '+1 234 567 8900'}</span>
                               </div>
                               <div className="flex items-center">
                                 <FiCalendar className="mr-2 flex-shrink-0 text-gray-400" />

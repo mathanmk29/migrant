@@ -5,6 +5,7 @@ const AgencySchema = new mongoose.Schema({
   email: { type: String, unique: true },
   password: String,
   department: String,
+  phoneNumber: String,
   location: String,
   licenseNumber: { type: String, unique: true },
   isVerified: { type: Boolean, default: false }

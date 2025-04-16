@@ -12,6 +12,7 @@ const AgencySignup = () => {
     email: "",
     password: "",
     department: "",
+    phoneNumber: "",
     location: "",
     licenseNumber: ""
   });
@@ -19,6 +20,7 @@ const AgencySignup = () => {
     name: "",
     email: "",
     password: "",
+    phoneNumber: "",
     location: "",
     licenseNumber: ""
   });
@@ -59,11 +61,25 @@ const AgencySignup = () => {
     return "";
   };
 
-  const validateLicense = (license) => {
-    const regex = /^\d{10}$/;
-    if (!regex.test(license)) {
-      return "License number must be exactly 10 digits";
+  const validatePhone = (phone) => {
+    // Remove all non-digit characters for validation
+    const digitsOnly = phone.replace(/\D/g, '');
+    
+    // Strict 10-digit validation
+    if (digitsOnly.length !== 10) {
+      return "Phone number must be exactly 10 digits";
     }
+    
+    // Check if the input contains any invalid characters
+    if (!/^\d+$/.test(digitsOnly)) {
+      return "Phone number must contain only digits";
+    }
+    
+    return "";
+  };
+
+  const validateLicense = (license) => {
+    // No validation required for license number
     return "";
   };
 
@@ -81,14 +97,16 @@ const AgencySignup = () => {
     // Validate all fields
     const nameError = validateName(agency.name);
     const emailError = validateEmail(agency.email);
+    const phoneError = validatePhone(agency.phoneNumber);
     const locationError = validateLocation(agency.location);
     const licenseError = validateLicense(agency.licenseNumber);
     const passwordError = validatePassword(agency.password);
     
-    if (nameError || emailError || locationError || licenseError || passwordError) {
+    if (nameError || emailError || phoneError || locationError || licenseError || passwordError) {
       setErrors({
         name: nameError,
         email: emailError,
+        phoneNumber: phoneError,
         location: locationError,
         licenseNumber: licenseError,
         password: passwordError
@@ -122,10 +140,19 @@ const AgencySignup = () => {
       setErrors(prev => ({ ...prev, [name]: "" }));
     }
     
-    setAgency((prev) => ({
-      ...prev,
-      [name]: value
-    }));
+    // For phone numbers, only allow digits and limit to 10 digits
+    if (name === "phoneNumber") {
+      const digitsOnly = value.replace(/\D/g, '').slice(0, 10);
+      setAgency(prev => ({
+        ...prev,
+        [name]: digitsOnly
+      }));
+    } else {
+      setAgency(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
   };
 
   const handleBlur = (e) => {
@@ -137,6 +164,9 @@ const AgencySignup = () => {
         break;
       case "email":
         setErrors(prev => ({ ...prev, email: validateEmail(value) }));
+        break;
+      case "phoneNumber":
+        setErrors(prev => ({ ...prev, phoneNumber: validatePhone(value) }));
         break;
       case "location":
         setErrors(prev => ({ ...prev, location: validateLocation(value) }));
@@ -237,6 +267,31 @@ const AgencySignup = () => {
                 </select>
               </div>
 
+              {/* Phone Number */}
+              <div>
+                <label className="block text-lg font-medium text-gray-700 mb-2">
+                  Phone Number
+                </label>
+                <div className="relative rounded-md shadow-sm">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <FiFileText className="text-gray-400 text-lg" />
+                  </div>
+                  <input
+                    type="tel"
+                    name="phoneNumber"
+                    value={agency.phoneNumber}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className={`block w-full pl-12 pr-4 py-3 text-lg border ${errors.phoneNumber ? "border-red-300" : "border-gray-300"} rounded-md leading-5 bg-white placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500`}
+                    placeholder="10 digit phone number"
+                    maxLength="10"
+                    pattern="[0-9]{10}"
+                    required
+                  />
+                </div>
+                {errors.phoneNumber && <p className="mt-2 text-base text-red-600">{errors.phoneNumber}</p>}
+              </div>
+
               {/* Location */}
               <div>
                 <label className="block text-lg font-medium text-gray-700 mb-2">
@@ -275,9 +330,9 @@ const AgencySignup = () => {
                     value={agency.licenseNumber}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    maxLength="10"
+
                     className={`block w-full pl-12 pr-4 py-3 text-lg border ${errors.licenseNumber ? "border-red-300" : "border-gray-300"} rounded-md leading-5 bg-white placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500`}
-                    placeholder="10 digit number"
+                    placeholder="License Number"
                     required
                   />
                 </div>
@@ -285,7 +340,7 @@ const AgencySignup = () => {
                   <p className="mt-2 text-base text-red-600">{errors.licenseNumber}</p>
                 ) : (
                   <p className="mt-2 text-sm text-gray-500">
-                    Must be a 10-digit government-issued license number
+                    Enter your government-issued license number
                   </p>
                 )}
               </div>

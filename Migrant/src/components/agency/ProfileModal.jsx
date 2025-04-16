@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FiX, FiMail, FiMapPin, FiTag, FiUser, FiGrid } from "react-icons/fi";
+import { FiX, FiMail, FiMapPin, FiTag, FiUser, FiGrid, FiPhone } from "react-icons/fi";
 
 const ProfileModal = ({ isOpen, onClose, agencyData }) => {
   if (!isOpen || !agencyData) return null;
@@ -29,7 +29,7 @@ const ProfileModal = ({ isOpen, onClose, agencyData }) => {
         </div>
 
         {/* Profile details */}
-        <div className="space-y-4">
+          <div className="space-y-4">
           <div className="flex items-center p-3 bg-gray-50 rounded-lg">
             <FiUser className="text-blue-500 mr-3 flex-shrink-0" size={20} />
             <div>
@@ -43,6 +43,14 @@ const ProfileModal = ({ isOpen, onClose, agencyData }) => {
             <div>
               <p className="text-sm text-gray-500">Email</p>
               <p className="font-medium text-gray-800">{agencyData.email}</p>
+            </div>
+          </div>
+
+          <div className="flex items-center p-3 bg-gray-50 rounded-lg">
+            <FiPhone className="text-blue-500 mr-3 flex-shrink-0" size={20} />
+            <div>
+              <p className="text-sm text-gray-500">Phone Number</p>
+              <p className="font-medium text-gray-800">{agencyData.phoneNumber}</p>
             </div>
           </div>
 
