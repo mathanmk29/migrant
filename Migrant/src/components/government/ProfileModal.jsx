@@ -1,8 +1,13 @@
 import { motion } from "framer-motion";
-import { FiX, FiMail, FiMapPin, FiTag, FiUser, FiGrid, FiPhone } from "react-icons/fi";
+import { FiX, FiMail, FiMapPin, FiTag, FiUser, FiGrid } from "react-icons/fi";
 
-const ProfileModal = ({ isOpen, onClose, agencyData }) => {
-  if (!isOpen || !agencyData) return null;
+const ProfileModal = ({ isOpen, onClose, governmentData }) => {
+  console.log("Profile Modal Props:", { isOpen, governmentData });
+  
+  // Only check isOpen
+  if (!isOpen) return null;
+  
+  // No need for default data now as it comes from the backend
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
@@ -23,18 +28,18 @@ const ProfileModal = ({ isOpen, onClose, agencyData }) => {
         {/* Profile header */}
         <div className="text-center mb-6">
           <div className="w-24 h-24 mx-auto bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white text-3xl font-bold mb-4">
-            {agencyData.name ? agencyData.name.charAt(0).toUpperCase() : "A"}
+            {governmentData?.name ? governmentData.name.charAt(0).toUpperCase() : "G"}
           </div>
-          <h2 className="text-2xl font-bold text-gray-800">{agencyData.name}</h2>
+          <h2 className="text-2xl font-bold text-gray-800">{governmentData?.name || "Government Department"}</h2>
         </div>
 
         {/* Profile details */}
-          <div className="space-y-4">
+        <div className="space-y-4">
           <div className="flex items-center p-3 bg-gray-50 rounded-lg">
             <FiUser className="text-blue-500 mr-3 flex-shrink-0" size={20} />
             <div>
               <p className="text-sm text-gray-500">Name</p>
-              <p className="font-medium text-gray-800">{agencyData.name}</p>
+              <p className="font-medium text-gray-800">{governmentData?.name || "Not Available"}</p>
             </div>
           </div>
 
@@ -42,23 +47,15 @@ const ProfileModal = ({ isOpen, onClose, agencyData }) => {
             <FiMail className="text-blue-500 mr-3 flex-shrink-0" size={20} />
             <div>
               <p className="text-sm text-gray-500">Email</p>
-              <p className="font-medium text-gray-800">{agencyData.email}</p>
-            </div>
-          </div>
-
-          <div className="flex items-center p-3 bg-gray-50 rounded-lg">
-            <FiPhone className="text-blue-500 mr-3 flex-shrink-0" size={20} />
-            <div>
-              <p className="text-sm text-gray-500">Phone Number</p>
-              <p className="font-medium text-gray-800">{agencyData.phoneNumber}</p>
+              <p className="font-medium text-gray-800">{governmentData?.email || "Not Available"}</p>
             </div>
           </div>
 
           <div className="flex items-center p-3 bg-gray-50 rounded-lg">
             <FiGrid className="text-blue-500 mr-3 flex-shrink-0" size={20} />
             <div>
-              <p className="text-sm text-gray-500">Department</p>
-              <p className="font-medium text-gray-800">{agencyData.department}</p>
+              <p className="text-sm text-gray-500">Division</p>
+              <p className="font-medium text-gray-800">{governmentData?.division || "Administrative"}</p>
             </div>
           </div>
 
@@ -66,27 +63,15 @@ const ProfileModal = ({ isOpen, onClose, agencyData }) => {
             <FiMapPin className="text-blue-500 mr-3 flex-shrink-0" size={20} />
             <div>
               <p className="text-sm text-gray-500">Location</p>
-              <p className="font-medium text-gray-800">{agencyData.location}</p>
-            </div>
-          </div>
-
-          <div className="flex items-center p-3 bg-gray-50 rounded-lg">
-            <FiTag className="text-blue-500 mr-3 flex-shrink-0" size={20} />
-            <div>
-              <p className="text-sm text-gray-500">License Number</p>
-              <p className="font-medium text-gray-800">{agencyData.licenseNumber}</p>
+              <p className="font-medium text-gray-800">{governmentData?.location || "Government Complex, Capital City"}</p>
             </div>
           </div>
         </div>
 
         {/* Status */}
         <div className="mt-6 text-center">
-          <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
-            agencyData.isVerified 
-              ? "bg-green-100 text-green-800" 
-              : "bg-yellow-100 text-yellow-800"
-          }`}>
-            {agencyData.isVerified ? "Verified" : "Verification Pending"}
+          <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+            Government Official
           </span>
         </div>
       </motion.div>

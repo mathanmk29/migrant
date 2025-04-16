@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {
-  FiMail, FiCheckCircle, FiClock, FiMapPin, FiBriefcase, FiKey, FiArrowLeft
+  FiMail, FiCheckCircle, FiClock, FiMapPin, FiBriefcase, FiKey, FiArrowLeft, FiPhone
 } from 'react-icons/fi';
 
 const AgencyDetails = () => {
@@ -14,7 +14,7 @@ const AgencyDetails = () => {
   useEffect(() => {
     const fetchAgency = async () => {
       try {
-        const token = localStorage.getItem('governmentToken');
+        const token = localStorage.getItem('govToken');
         const res = await axios.get(`http://localhost:5000/api/government/agencies/${id}`, {
           headers: { 'x-auth-token': token },
         });
@@ -64,6 +64,10 @@ const AgencyDetails = () => {
           <div className="flex items-center">
             <FiMail className="mr-2 text-blue-500" />
             <span>{agency.email}</span>
+          </div>
+          <div className="flex items-center">
+            <FiPhone className="mr-2 text-blue-500" />
+            <span>{agency.phoneNumber}</span>
           </div>
           <div className="flex items-center">
             <FiBriefcase className="mr-2 text-purple-500" />

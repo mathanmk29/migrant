@@ -38,18 +38,14 @@ const Header = ({ handleLogout, agencyData }) => {
           <div className="relative" id="profile-menu-container">
             <motion.button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="flex items-center space-x-2 px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-xl shadow-sm hover:shadow-md transition-all"
-              whileHover={{ scale: 1.03, boxShadow: "0 4px 12px rgba(0, 0, 0, 0.05)" }}
-              whileTap={{ scale: 0.98 }}
+              className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-blue-50 transition-colors"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-medium">
-                {agencyData?.name ? agencyData.name.charAt(0).toUpperCase() : "A"}
+              <div className="w-9 h-9 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full flex items-center justify-center text-white mr-2">
+                <FiUser className="text-base" />
               </div>
-              <div className="text-left hidden sm:block">
-                <p className="text-sm font-medium text-gray-800">{agencyData?.name || "Admin"}</p>
-                <p className="text-xs text-gray-500">Agency Account</p>
-              </div>
-              <FiChevronDown className={`transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""}`} />
+              <span className="font-medium text-gray-700">Profile</span>
             </motion.button>
           </div>
         </div>

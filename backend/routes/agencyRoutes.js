@@ -9,7 +9,7 @@ const router = express.Router();
 // Agency Signup
 router.post("/signup", async (req, res) => {
   try {
-    const { name, email, password, department, location, licenseNumber } = req.body;
+    const { name, email, password, department, phoneNumber, location, licenseNumber } = req.body;
     
     // Check if license number already exists
     const existingLicense = await Agency.findOne({ licenseNumber });
@@ -24,6 +24,7 @@ router.post("/signup", async (req, res) => {
       email, 
       password: hashedPassword,
       department,
+      phoneNumber,
       location,
       licenseNumber
     });

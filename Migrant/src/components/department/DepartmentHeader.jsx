@@ -83,13 +83,14 @@ const DepartmentHeader = ({ departmentName, handleLogout }) => {
           <div className="relative" id="profile-menu-container">
             <motion.button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="flex items-center justify-center p-0 hover:shadow-md transition-all"
-              whileHover={{ scale: 1.05, boxShadow: "0 4px 12px rgba(0, 0, 0, 0.05)" }}
+              className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-blue-50 transition-colors"
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-teal-600 flex items-center justify-center text-white font-medium shadow-sm">
-                {departmentName ? departmentName.charAt(0).toUpperCase() : "D"}
+              <div className="w-9 h-9 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full flex items-center justify-center text-white mr-2">
+                <FiUser className="text-base" />
               </div>
+              <span className="font-medium text-gray-700">Profile</span>
             </motion.button>
           </div>
         </div>

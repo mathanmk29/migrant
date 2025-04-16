@@ -28,6 +28,13 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <Routes>
       <Route path="/" element={<LandingPage />} />
 
+      {/* Migrant Routes */}
+      <Route path="/home" element={<Home />} />
+      <Route path="/submit-complaint" element={<SubmitComplaint />} />
+      <Route path="/user-complaints" element={<UserComplaints />} />
+      <Route path="/verify" element={<Verification />} />
+      <Route path="/select-agency" element={<SelectAgency />} />
+      
       {/* Sign In Routes */}
       <Route path="/signin/migrant" element={<Login />} />
       <Route path="/signin/agency" element={<AgencyLogin />} />
@@ -40,16 +47,16 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <Route path="/signup/department" element={<DepartmentSignup />} />
 
       {/* Dashboard Routes */}
-      <Route path="/home" element={<Home />} />
       <Route path="/agency-dashboard" element={<AgencyDashboard />} />
       <Route path="/department-dashboard" element={<DepartmentDashboard />} />
       <Route path="/government-dashboard" element={<GovDashboard />} />
 
-      {/* Other Routes */}
+
       <Route path="/submit-complaint" element={ <ProtectedRoute> <SubmitComplaint /> </ProtectedRoute>} />
       <Route path="/user-complaints" element={ <ProtectedRoute> <UserComplaints /> </ProtectedRoute>} />
       <Route path="/verify" element={<Verification />} />
       <Route path="/select-agency" element={<SelectAgency />} />
+
       <Route path="/agency/:id" element={<AgencyDetails />} />
 
       {/* Catch-all route for undefined URLs */}
